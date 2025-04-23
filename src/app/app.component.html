@@ -6,12 +6,26 @@
   </header>
 
   <div class="content">
+
     <div class="currency-converter">
-      <app-convert-input></app-convert-input>
+      <p>{{title}}</p>
+      <div class="inputs-line">
+        <app-convert-input></app-convert-input>
+
+        From: <app-converter-dropdown [options]="currenciesOptions"></app-converter-dropdown>
+
+        To: <app-converter-dropdown [options]="currenciesOptions"></app-converter-dropdown>
+
+      </div>
+      <div class="convert-result">
+        {{convertSource}} = {{convertTarget}}
+      </div>
     </div>
+
     <div class="history">
 
     </div>
+
   </div>
 </main>
 

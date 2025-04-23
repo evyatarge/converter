@@ -1,16 +1,51 @@
+.main {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
 
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 2vh 1vw;
-  background-color: lightblue;
-  padding: 1em;
-}
+  .header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: lightblue;
+    padding: 1em;
+    margin: 2vh 1vw;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  .content {
+    display: grid;
+    justify-content: center;
+    place-items: start;
+    padding: 1em;
+    gap: 1em;
+
+    .currency-converter {
+      display: grid;
+      place-items: center;
+      gap: 1.5em;
+      padding: 2em;
+
+      p {
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      .inputs-line {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        align-items: end;
+        gap: 1em;
+      }
+
+      .convert-result {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        gap: 1em;
+      }
+    }
+  }
 }
