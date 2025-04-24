@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-converter-dropdown',
@@ -10,6 +10,8 @@ export class ConverterDropdownComponent {
 
   @Input() options: string[] = [];
 
+  @Output() onSelectChange: EventEmitter<string> = new EventEmitter();
+
   public selected = '';
 
   // todo - fix the track by to be unique - {id: 'USD', title:'US Dollar'} => id+title
@@ -17,5 +19,6 @@ export class ConverterDropdownComponent {
 
   onSelect(selectedOption: Event) {
     this.selected = (selectedOption?.target as unknown as HTMLSelectElement)?.value;
+    this.onSelectChange.emit(this.selected);
   }
 }

@@ -13,6 +13,32 @@ export class AppComponent {
 
   title = 'Currency Converter';
   currenciesOptions = ["USD", "EUR", "GBP", "ILS"];
-  convertSource: string = '0';
-  convertTarget: string = '0';
+
+  sourceCurrency: string = '';
+  targetCurrency: string = '';
+
+  sourceValue: number = 0;
+  targetValue: number = 0;
+
+  private serviceConversion = (source: number): number => 3.14;
+
+  targetChanged(targetCurrency: string) {
+    this.targetCurrency = targetCurrency;
+    this.calculateTargetValue()
+  }
+
+  sourceChanged(sourceCurrency: string) {
+    this.sourceCurrency = sourceCurrency;
+    this.calculateTargetValue();
+  }
+
+  valueToConvertChanged(valueToConvert: number) {
+    this.sourceValue = valueToConvert;
+    this.calculateTargetValue();
+  }
+
+
+  private calculateTargetValue(): void {
+    this.targetValue = this.serviceConversion(this.sourceValue) ?? 0;
+  }
 }

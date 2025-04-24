@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-convert-input',
@@ -8,6 +8,12 @@ import { Component } from '@angular/core';
 })
 export class ConvertInputComponent {
 
-  value: string = '';
+  @Output() valueChanged = new EventEmitter();
 
+  value: number = 0;
+
+  valueChange(inputValue: any) {
+    this.value = inputValue.target.value ?? '0';
+    this.valueChanged.emit(this.value);
+  }
 }

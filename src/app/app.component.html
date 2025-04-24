@@ -10,15 +10,23 @@
     <div class="currency-converter">
       <p>{{title}}</p>
       <div class="inputs-line">
-        <app-convert-input></app-convert-input>
+        <app-convert-input (valueChanged)="valueToConvertChanged($event)"></app-convert-input>
 
-        From: <app-converter-dropdown [options]="currenciesOptions"></app-converter-dropdown>
+        From:
+        <app-converter-dropdown
+          [options]="currenciesOptions"
+        (onSelectChange)="sourceChanged($event)">
+        </app-converter-dropdown>
 
-        To: <app-converter-dropdown [options]="currenciesOptions"></app-converter-dropdown>
+        To:
+        <app-converter-dropdown
+          [options]="currenciesOptions"
+          (onSelectChange)="targetChanged($event)"
+        ></app-converter-dropdown>
 
       </div>
       <div class="convert-result">
-        {{convertSource}} = {{convertTarget}}
+        {{sourceValue}} = {{targetValue}}
       </div>
     </div>
 
