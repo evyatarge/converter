@@ -33,28 +33,24 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this.currenciesOptions = this.apiService.getCurrencies().pipe(map((c: Currencies)=> Object.keys(c)));
-    this.setInitialCurrency();
+    this.currenciesOptions = this.apiService.getCurrencies().pipe(map((c: Currencies)=> {
+      const currencies = Object.keys(c);
+      currencies.unshift('');
+      return currencies;
+    }));
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  private setInitialCurrency() {
-    this.subscriptions.add(this.currenciesOptions.subscribe(currencies => {
-      this.sourceCurrency = currencies[0];
-      this.targetCurrency = currencies[0];
-    }))
-  }
-
   targetChanged(targetCurrency: string) {
-    this.targetCurrency = targetCurrency;
+    this.targetCurrency = targetCurrency ?? this.targetCurrency;
     this.calculateTargetValue()
   }
 
   sourceChanged(sourceCurrency: string) {
-    this.sourceCurrency = sourceCurrency;
+    this.sourceCurrency = sourceCurrency ?? this.sourceCurrency;
     this.calculateTargetValue();
   }
 
@@ -65,18 +61,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // private
   private calculateTargetValue(): void {
-    this.serviceConversion(this.sourceValue);
-  }
-
-  private serviceConversion(source: number): void {
     if (this.sourceCurrency && this.targetCurrency) {
       this.subscriptions.add(
       this.apiService.getConversionRate(this.sourceCurrency, this.targetCurrency)
         .subscribe((conversion) => {
-          console.log(conversion);
-          const converted = this.apiService.convert(conversion.rates, source, this.targetCurrency);
+          const converted = this.apiService.convert(conversion.rates, this.sourceValue, this.targetCurrency);
           this.targetValue = Number(converted);
-          this.currencyHistory.push(converted);
+          // record the conversion to history
+          const record = `${this.sourceCurrency} => ${this.targetCurrency}: ${converted}`;
+          this.currencyHistory.push(record);
         })
       );
     } else {

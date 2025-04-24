@@ -51,5 +51,19 @@
         gap: 1em;
       }
     }
+
+    .history {
+      .history-record {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        align-items: center;
+        gap: 1em;
+        padding: 0.5em;
+        margin: 0.5em;
+        border-radius: 0.3em;
+        background-color: #e7e5e5;
+
+      }
+    }
   }
 }
