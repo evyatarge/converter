@@ -4,14 +4,14 @@ import {ConvertInputComponent} from './components/convert-input/convert-input.co
 import {ConverterDropdownComponent} from './components/converter-dropdown/converter-dropdown.component';
 import {ApiService, Currencies} from './services/api.service';
 import {map, Observable, of, Subscription} from 'rxjs';
-import {AsyncPipe, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [ApiService],
-  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent, AsyncPipe, NgIf, NgSwitch, NgSwitchCase],
+  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent, AsyncPipe, NgIf, NgSwitch, NgSwitchCase, NgForOf],
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -26,6 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   sourceValue: number = 0;
   targetValue: number = 0;
+
+  currencyHistory: string[] = [];
 
   private apiService: ApiService = inject(ApiService);
   private subscriptions: Subscription = new Subscription();
@@ -74,6 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log(conversion);
           const converted = this.apiService.convert(conversion.rates, source, this.targetCurrency);
           this.targetValue = Number(converted);
+          this.currencyHistory.push(converted);
         })
       );
     } else {

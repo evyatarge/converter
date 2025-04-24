@@ -32,7 +32,9 @@
     </div>
 
     <div *ngSwitchCase="ConverterTabsEnum.HISTORY" class="history">
-
+      <div *ngFor="let convertedValue of currencyHistory" class="history-list">
+        {{ convertedValue }}
+      </div>
     </div>
 
   </div>
