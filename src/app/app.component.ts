@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {ConvertInputComponent} from './convert-input/convert-input.component';
-import {ConverterDropdownComponent} from './converter-dropdown/converter-dropdown.component';
+import {ConvertInputComponent} from './components/convert-input/convert-input.component';
+import {ConverterDropdownComponent} from './components/converter-dropdown/converter-dropdown.component';
+import {ApiService, Currencies} from './services/api.service';
+import {map, Observable} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent],
+  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent, AsyncPipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [ApiService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'Currency Converter';
-  currenciesOptions = ["USD", "EUR", "GBP", "ILS"];
+  currenciesOptions: Observable<string[]> = new Observable<string[]>();
 
   sourceCurrency: string = '';
   targetCurrency: string = '';
@@ -20,7 +24,11 @@ export class AppComponent {
   sourceValue: number = 0;
   targetValue: number = 0;
 
-  private serviceConversion = (source: number): number => 3.14;
+  private apiService: ApiService = inject(ApiService);
+
+  ngOnInit(): void {
+    this.currenciesOptions = this.apiService.getCurrencies().pipe(map((c: Currencies)=> Object.keys(c) ));
+  }
 
   targetChanged(targetCurrency: string) {
     this.targetCurrency = targetCurrency;
@@ -37,8 +45,10 @@ export class AppComponent {
     this.calculateTargetValue();
   }
 
-
+  // private
   private calculateTargetValue(): void {
     this.targetValue = this.serviceConversion(this.sourceValue) ?? 0;
   }
+
+  private serviceConversion = (source: number): number => source*3.14;
 }

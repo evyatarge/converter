@@ -1,0 +1,8 @@
+<div class="select-container">
+  <div class="title">{{title}}</div>
+  <select (change)="onSelect($event)">
+  <!--  @for (option of options; track trackBy) {-->
+      <option *ngFor="let option of options; trackBy: trackBy">{{ option }}</option>
+  <!--  }-->
+  </select>
+</div>

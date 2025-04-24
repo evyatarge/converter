@@ -12,21 +12,22 @@
       <div class="inputs-line">
         <app-convert-input (valueChanged)="valueToConvertChanged($event)"></app-convert-input>
 
-        From:
+
         <app-converter-dropdown
-          [options]="currenciesOptions"
-        (onSelectChange)="sourceChanged($event)">
+          [options]="currenciesOptions | async"
+          [title]="'From:'"
+          (onSelectChange)="sourceChanged($event)">
         </app-converter-dropdown>
 
-        To:
         <app-converter-dropdown
-          [options]="currenciesOptions"
+          [options]="currenciesOptions | async"
+          [title]="'To:'"
           (onSelectChange)="targetChanged($event)"
         ></app-converter-dropdown>
 
       </div>
       <div class="convert-result">
-        {{sourceValue}} = {{targetValue}}
+        {{ sourceCurrency }} {{sourceValue}} = {{ targetCurrency }} {{targetValue}}
       </div>
     </div>
 
