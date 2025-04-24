@@ -4,16 +4,19 @@ import {ConvertInputComponent} from './components/convert-input/convert-input.co
 import {ConverterDropdownComponent} from './components/converter-dropdown/converter-dropdown.component';
 import {ApiService, Currencies} from './services/api.service';
 import {map, Observable, of, Subscription} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [ApiService],
+  imports: [RouterOutlet, ConvertInputComponent, ConverterDropdownComponent, AsyncPipe, NgIf, NgSwitch, NgSwitchCase],
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  ConverterTabsEnum = ConverterTabsEnum;
+  selectedTab: ConverterTabsEnum = ConverterTabsEnum.CONVERTER;
 
   title = 'Currency Converter';
   currenciesOptions: Observable<string[]> = new Observable<string[]>();
@@ -32,15 +35,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.setInitialCurrency();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   private setInitialCurrency() {
     this.subscriptions.add(this.currenciesOptions.subscribe(currencies => {
       this.sourceCurrency = currencies[0];
       this.targetCurrency = currencies[0];
     }))
-  }
-
-  ngOnDestroy(): void {
-      this.subscriptions.unsubscribe();
   }
 
   targetChanged(targetCurrency: string) {
@@ -77,4 +80,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.targetValue = 0;
     }
   }
+}
+
+export enum ConverterTabsEnum {
+  CONVERTER,
+  HISTORY,
 }

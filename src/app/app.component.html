@@ -1,13 +1,13 @@
 <main class="main">
 
   <header class="header">
-      <div>Currency Converter</div>
-      <div>History</div>
+      <div (click)="selectedTab = ConverterTabsEnum.CONVERTER">Currency Converter</div>
+      <div (click)="selectedTab = ConverterTabsEnum.HISTORY">History</div>
   </header>
 
-  <div class="content">
+  <div class="content" [ngSwitch]="this.selectedTab">
 
-    <div class="currency-converter">
+    <div *ngSwitchCase="ConverterTabsEnum.CONVERTER" class="currency-converter">
       <p>{{title}}</p>
       <div class="inputs-line">
         <app-convert-input (valueChanged)="valueToConvertChanged($event)"></app-convert-input>
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="history">
+    <div *ngSwitchCase="ConverterTabsEnum.HISTORY" class="history">
 
     </div>
 
