@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const converted = this.apiService.convert(conversion.rates, this.sourceValue, this.targetCurrency);
           this.targetValue = Number(converted);
           // record the conversion to history
-          const record = `${this.sourceCurrency} => ${this.targetCurrency}: ${converted}`;
+          const record = `${this.sourceValue}${this.sourceCurrency} => ${this.targetCurrency}: ${converted}`;
           this.currencyHistory.push(record);
         })
       );
