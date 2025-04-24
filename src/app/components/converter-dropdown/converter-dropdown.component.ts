@@ -3,11 +3,11 @@ import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-converter-dropdown',
+  templateUrl: './converter-dropdown.component.html',
+  styleUrl: './converter-dropdown.component.scss',
   imports: [
     NgForOf
   ],
-  templateUrl: './converter-dropdown.component.html',
-  styleUrl: './converter-dropdown.component.scss'
 })
 export class ConverterDropdownComponent {
 

@@ -16,8 +16,22 @@ export class ApiService {
   public getCurrencies(): Observable<Currencies> {
     return this.get$('currencies');
   }
+
+  public getConversionRate(from: string, to: string): Observable<ConversionRate> {
+    return this.get$(`latest?base=${from}&symbols=${to}`);
+  }
+
+  public convert(rates: Currencies, amount: number, to: string): string {
+    return (amount * Number(rates[to])).toFixed(2);
+  }
 }
 
 export interface Currencies {
-  [currencyKey: string]: [currencyTitle: string];
+  [currencyKey: string]: [currencyTitle: number];
+}
+export interface ConversionRate {
+  amount: number;
+  base: string;
+  date: string;
+  rates: Currencies,
 }
